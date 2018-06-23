@@ -1,0 +1,12 @@
+-js bin/app.js
+-main fux.App
+-lib om.core
+-cp src
+-dce full
+-debug
+-cmd cp -ru res/image bin
+-cmd cp -ru res/sound bin
+-cmd cp -ru res/video bin
+-cmd cp -u res/html/app.html bin/index.html
+-cmd lessc res/style/app.less bin/app.css
+#--json fux.json
