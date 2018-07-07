@@ -72,19 +72,39 @@ class App {
 				'tucker-6.2.2',
 				'tucker-6.2.3',
 			]
+		},
+		{
+			name: 'jeannie',
+			video: [
+				'jeannie-1.1.1',
+				'jeannie-1.1.2',
+				'jeannie-1.1.3',
+				'jeannie-1.1.4',
+				'jeannie-1.1.5',
+				'jeannie-1.1.6',
+			]
+		},
+		{
+			name: 'rudy',
+			video: [
+				'jeannie-1.2.1',
+				'jeannie-1.2.2',
+				'jeannie-1.2.3',
+				'jeannie-1.2.4',
+				'jeannie-1.2.5',
+				'jeannie-1.2.6',
+				'jeannie-1.2.7'
+			]
 		}
 	];
 
 	static var current : Int;
 	static var video : VideoElement;
-	//static var background : VideoElement;
-	//static var nextChannelVideo : VideoElement;
 
 	static function loadVideo( name : String ) {
 		video.src = 'video/$name.mp4';
+		video.currentTime = Math.random() * 3;
 		//video.playbackRate = 4;
-		//video.currentTime = Math.random() * 5;
-		//trace(video.src);
 	}
 
 	static inline function loadLiveVideo( name : String ) {
@@ -126,20 +146,7 @@ class App {
 
 		window.onload = function(){
 
-			/*
-			background = cast document.getElementById( 'background' );
-			//background.src = 'video/flag.mp4';
-			background.oncanplaythrough = e -> {
-				loadChannel(0);
-			}
-			*/
-
 			var container = document.querySelector( 'fux-live' );
-
-			//nextChannelVideo = document.createVideoElement();
-			//nextChannelVideo.muted = true;
-			//nextChannelVideo.autoplay = true;
-			//container.appendChild( nextChannelVideo );
 
 			video = cast document.getElementById( 'live' );
 			video.muted = true;
@@ -149,58 +156,29 @@ class App {
 				//background.play();
 			}, false );
 			video.addEventListener( 'play', function(e){
-				//background.pause();
-				/*
-				var annel = playlist[current];
-				var i = (channel.index == channel.video.length) ? 0 : channel.index + 1;
-				var n = channel.video[i];
-				var f = 'video/live/$n.mp4';
-				//nextChannelVideo.src = f;
-				//nextChannelVideo.pause();
-				*/
-
 
 			}, false );
 			video.addEventListener( 'pause', function(e){
 				//trace(e);
-				//background.play();
 			}, false );
 			video.addEventListener( 'ended', function(e){
 				var channel = playlist[current];
-				/*
-				video.remove();
-				nextChannelVideo.id = 'video';
-				container.appendChild( nextChannelVideo );
-				video = nextChannelVideo;
-				video.play();
-				*/
 				if( ++channel.index >= channel.video.length ) channel.index = 0;
 				loadLiveVideo( channel.video[channel.index] );
 
 			}, false );
-
-			/*
-			var music = document.createAudioElement();
-			music.src = 'sound/music.mp3';
-			music.autoplay = true;
-			music.loop = true;
-			music.volume = 0.4;
-			*/
 
 			var storage = js.Browser.getSessionStorage();
 			var _state = storage.getItem('fuxnews');
 			var state = (_state == null) ? 0 : Std.parseInt( _state );
 			loadChannel( state );
 
-			//trace( js.Object.keys(window) );
-			//for( f in js.Object.keys(window).filter( s -> return s.startsWith('on') ) ) trace( f );
-
 			document.body.onclick = e -> {
-				loadNextChannel();
+				if( video.readyState == 4 ) loadNextChannel();
 			}
 			document.body.oncontextmenu = e -> {
 				e.preventDefault();
-				loadPrevChannel();
+				if( video.readyState == 4 )  loadPrevChannel();
 			}
 			window.onbeforeunload = e -> {
 				if( current != null ) storage.setItem( 'fuxnews', Std.string(current) );
