@@ -20,6 +20,49 @@ class App {
 
 	static var playlist : Playlist = [
 		{
+			name: 'tucker-1',
+			video: [
+				'tucker-4.1.1',
+				'tucker-4.1.2',
+			]
+		},
+		{
+			name: 'tucker-2',
+			video: [
+				'tucker-5.1.1',
+				'tucker-5.1.2',
+				'tucker-5.1.3',
+			]
+		},
+		{
+			name: 'tucker-3',
+			video: [
+				'tucker-6.1.1',
+				'tucker-6.1.2',
+				'tucker-6.1.3',
+				'tucker-6.1.4',
+				'tucker-6.1.5',
+			]
+		},
+		{
+			name: 'tucker-4',
+			video: [
+				'tucker-7.1.1',
+				'tucker-7.1.2',
+				'tucker-7.1.3',
+				'tucker-7.1.4',
+			]
+		},
+		{
+			name: 'tucker-5',
+			video: [
+				'tucker-7.2.1',
+				'tucker-7.2.2',
+				'tucker-7.2.3',
+			]
+		},
+		/*
+		{
 			name: 'unknown',
 			video: [
 				'cnn-2.1.1',
@@ -34,6 +77,7 @@ class App {
 				'tucker-3.2.1',
 			]
 		},
+		*/
 		{
 			name: 'connway',
 			video: [
@@ -136,7 +180,6 @@ class App {
 		loadChannel( current );
 	}
 
-
 	static function loadPrevChannel() {
 		current = (current == 0) ? playlist.length-1 : current-1;
 		loadChannel( current );
@@ -146,12 +189,11 @@ class App {
 
 		window.onload = function(){
 
-			var container = document.querySelector( 'fux-live' );
-
 			video = cast document.getElementById( 'live' );
 			video.muted = true;
 			video.autoplay = true;
 			//video.loop = true;
+			/*
 			video.addEventListener( 'loadstart', function(e){
 				//background.play();
 			}, false );
@@ -161,17 +203,29 @@ class App {
 			video.addEventListener( 'pause', function(e){
 				//trace(e);
 			}, false );
+			*/
 			video.addEventListener( 'ended', function(e){
 				var channel = playlist[current];
 				if( ++channel.index >= channel.video.length ) channel.index = 0;
 				loadLiveVideo( channel.video[channel.index] );
-
 			}, false );
 
+			/*
 			var storage = js.Browser.getSessionStorage();
-			var _state = storage.getItem('fuxnews');
-			var state = (_state == null) ? 0 : Std.parseInt( _state );
-			loadChannel( state );
+			var stateItem = storage.getItem('fuxnews');
+			trace(stateItem);
+			var index = 0;
+			if( stateItem == null ) {
+				playlist.shuffle();
+			} else {
+				index = Std.parseInt( stateItem );
+			}
+			trace(index);
+			//var state = (stateItem == null) ? 0 : Std.parseInt( stateItem );
+			*/
+			playlist.shuffle();
+			var index = Std.int( Math.random() * (playlist.length-1) );
+			loadChannel( index );
 
 			document.body.onclick = e -> {
 				if( video.readyState == 4 ) loadNextChannel();
@@ -180,10 +234,12 @@ class App {
 				e.preventDefault();
 				if( video.readyState == 4 )  loadPrevChannel();
 			}
+			/*
 			window.onbeforeunload = e -> {
 				if( current != null ) storage.setItem( 'fuxnews', Std.string(current) );
 				return null;
 			}
+			*/
 		}
 	}
 
