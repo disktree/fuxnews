@@ -12,108 +12,18 @@ header {
 	display: none;
 }
 
-
-@video-width: 400px;
-@video-height: 400px;
-
-/*
-video#background {
-	position: absolute;
+video {
+	position: fixed;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	z-index: 10;
+	user-select: none;
 }
-*/
+
+video#flag {
+	z-index: 1;
+}
 
 video#live {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	z-index: 11;
+	z-index: 2;
 }
-
-/*
-@media screen and (max-width: calc(@video-width*3) ) {
-	video {
-		max-width: calc(100%/3);
-	}
-}
-@media screen and (max-width: calc(@video-width*2) ) {
-	video {
-		max-width: calc(100%/2);
-	}
-}
-@media screen and (max-width: @video-width) {
-	video {
-		max-width: calc(100%);
-	}
-}
-*/
-
-/*
-///https://matthewjamestaylor.com/blog/website-images-video-effect
-.crt {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	right: 0;
-
-	width: 100%;
-	height: 100%;
-
-	float:left;
-	position:relative;
-	overflow:hidden;
-}
-.crt video {
-	//display:block;
-	//float:left;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	right: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	z-index: 11;
-
-}
-.crt span.screen,
-.crt span.snow {
-	display:block;
-	position:absolute;
-	top:0;
-	left:0;
-	width:1000px;
-	height:1000px;
-	background:transparent url(image/crt-screen.gif) top left repeat;
-}
-.crt span.snow {
-	background:transparent url(image/crt-snow.gif) top left repeat;
-}
-.crt:hover span.snow {
-	display:none;
-}
-.crt span.top {
-	display:block;
-	position:absolute;
-	top:0;
-	left:0;
-	width:1000px;
-	height:70px;
-	background:transparent url(image/crt-top.png) top left repeat-x;
-}
-.crt span.bottom {
-	display:block;
-	position:absolute;
-	left:0;
-	bottom:0;
-	width:1000px;
-	height:110px;
-	background:transparent url(image/crt-bottom.png) bottom left repeat-x;
-}
-*/
