@@ -1,5 +1,8 @@
 bin/
 res/youtube/
 NOTES*
-*.zip
 *.kdenlive
+*.mp4
+*.mkv
+*.webm
+*.zip
