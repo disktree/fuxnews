@@ -140,7 +140,96 @@ class App {
 				'jeannie-1.2.6',
 				'jeannie-1.2.7'
 			]
-		}
+		},
+		{
+			name: 'conway',
+			video: [
+				'conway-1.1',
+				'conway-1.2'
+			]
+		},
+		{
+			name: 'coulter',
+			video: [
+				'coulter-1.1',
+				'coulter-1.2',
+				'coulter-1.3'
+			]
+		},
+		{
+			name: 'fox',
+			video: [
+				'fox-1.1',
+				'fox-2.1',
+				'fox-2.2',
+				'fox-2.3',
+				'fox-3.1',
+				'fox-3.2',
+				'fox-3.3',
+				'fox-3.4',
+				'fox-3.5',
+				'fox-4.1',
+				'fox-4.2'
+			]
+		},
+		{
+			name: 'sanders',
+			video: [
+				'sanders-1.1',
+				'sanders-1.2',
+				'sanders-1.3',
+			]
+		},
+		{
+			name: 'scaramucci',
+			video: [
+				'scaramucci-1.1',
+				'scaramucci-1.2',
+				'scaramucci-1.3',
+				'scaramucci-1.4'
+			]
+		},
+		{
+			name: 'shapiro',
+			video: [
+				'shapiro-1.1',
+				'shapiro-1.2'
+			]
+		},
+		{
+			name: 'jeanny',
+			video: [
+				'jeanny-1.1'
+			]
+		},
+		{
+			name: 'tucker',
+			video: [
+				'tucker-8.1'
+			]
+		},
+		{
+			name: 'cruz',
+			video: [
+				'cruz-1.1',
+				'cruz-1.2',
+				'cruz-1.3',
+				'cruz-1.4',
+				'cruz-1.5'
+			]
+		},
+		{
+			name: 'sanders',
+			video: [
+				'sanders-2.1',
+				'sanders-2.2',
+				'sanders-2.3',
+				'sanders-2.4',
+				'sanders-2.5',
+				'sanders-2.6',
+				'sanders-2.7'
+			]
+		},
 	];
 
 	static var video : VideoElement;
@@ -229,6 +318,13 @@ class App {
 			document.body.oncontextmenu = e -> {
 				e.preventDefault();
 				if( video.readyState == 4 )  loadPrevChannel();
+			}
+			window.onkeydown = function(e) {
+				trace(e.keyCode);
+				switch e.keyCode {
+				case 13,32:
+					if( video.readyState == 4 ) loadNextChannel();
+				}
 			}
 
 			/*

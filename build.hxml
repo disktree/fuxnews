@@ -4,4 +4,3 @@
 -cp src
 -dce full
 -debug
--cmd lessc res/style/app.less bin/app.css
