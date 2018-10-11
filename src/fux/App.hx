@@ -9,259 +9,48 @@ import js.html.VideoElement;
 using om.ArrayTools;
 using om.StringTools;
 
-typedef Playlist = Array<Channel>;
-
-typedef Channel = {
-	var name : String;
-	var video : Array<String>;
-	@:optional var index : Int;
-}
-
 class App {
 
-	static var playlist : Playlist = [
-		{
-			name: 'tucker-1',
-			video: [
-				'tucker-4.1.1',
-				'tucker-4.1.2',
-			]
-		},
-		{
-			name: 'tucker-2',
-			video: [
-				'tucker-5.1.1',
-				'tucker-5.1.2',
-				'tucker-5.1.3',
-			]
-		},
-		{
-			name: 'tucker-3',
-			video: [
-				'tucker-6.1.1',
-				'tucker-6.1.2',
-				'tucker-6.1.3',
-				'tucker-6.1.4',
-				'tucker-6.1.5',
-			]
-		},
-		{
-			name: 'tucker-4',
-			video: [
-				'tucker-7.1.1',
-				'tucker-7.1.2',
-				'tucker-7.1.3',
-				'tucker-7.1.4',
-			]
-		},
-		{
-			name: 'tucker-5',
-			video: [
-				'tucker-7.2.1',
-				'tucker-7.2.2',
-				'tucker-7.2.3',
-			]
-		},
-		/*
-		{
-			name: 'unknown',
-			video: [
-				'cnn-2.1.1',
-				'cnn-2.2.1',
-				'cnn-2.2.2',
-				'cnn-2.3.1',
-				'ingraham-1.1.1',
-				'ingraham-1.1.1',
-				'ingraham-1.2.1',
-				'ingraham-1.2.2',
-				'ingraham-1.2.3',
-				'tucker-3.2.1',
-			]
-		},
-		*/
-		{
-			name: 'connway',
-			video: [
-				'cnn-1.1.1',
-				'cnn-1.1.2',
-				'cnn-1.1.3',
-				'cnn-1.1.4',
-				'cnn-1.1.5',
-			]
-		},
-		{
-			name: 'brian',
-			video: [
-				'cnn-1.2.1',
-				'cnn-1.2.2',
-				'cnn-1.2.3',
-			]
-		},
-		{
-			name: 'cuomo',
-			video: [
-				'cuomo-1.1.1',
-				'cuomo-1.1.2',
-				'cuomo-1.1.3',
-				'cuomo-1.1.4',
-				'cuomo-1.1.5',
-				'cuomo-1.1.6',
-				'cuomo-1.1.7',
-				'cuomo-1.1.8'
-			]
-		},
-		{
-			name: 'stone',
-			video: [
-				'tucker-6.2.1',
-				'tucker-6.2.2',
-				'tucker-6.2.3',
-			]
-		},
-		{
-			name: 'jeannie',
-			video: [
-				'jeannie-1.1.1',
-				'jeannie-1.1.2',
-				'jeannie-1.1.3',
-				'jeannie-1.1.4',
-				'jeannie-1.1.5',
-				'jeannie-1.1.6',
-			]
-		},
-		{
-			name: 'rudy',
-			video: [
-				'jeannie-1.2.1',
-				'jeannie-1.2.2',
-				'jeannie-1.2.3',
-				'jeannie-1.2.4',
-				'jeannie-1.2.5',
-				'jeannie-1.2.6',
-				'jeannie-1.2.7'
-			]
-		},
-		{
-			name: 'conway',
-			video: [
-				'conway-1.1',
-				'conway-1.2'
-			]
-		},
-		{
-			name: 'coulter',
-			video: [
-				'coulter-1.1',
-				'coulter-1.2',
-				'coulter-1.3'
-			]
-		},
-		{
-			name: 'fox',
-			video: [
-				'fox-1.1',
-				'fox-2.1',
-				'fox-2.2',
-				'fox-2.3',
-				'fox-3.1',
-				'fox-3.2',
-				'fox-3.3',
-				'fox-3.4',
-				'fox-3.5',
-				'fox-4.1',
-				'fox-4.2'
-			]
-		},
-		{
-			name: 'sanders',
-			video: [
-				'sanders-1.1',
-				'sanders-1.2',
-				'sanders-1.3',
-			]
-		},
-		{
-			name: 'scaramucci',
-			video: [
-				'scaramucci-1.1',
-				'scaramucci-1.2',
-				'scaramucci-1.3',
-				'scaramucci-1.4'
-			]
-		},
-		{
-			name: 'shapiro',
-			video: [
-				'shapiro-1.1',
-				'shapiro-1.2'
-			]
-		},
-		{
-			name: 'jeanny',
-			video: [
-				'jeanny-1.1'
-			]
-		},
-		{
-			name: 'tucker',
-			video: [
-				'tucker-8.1'
-			]
-		},
-		{
-			name: 'cruz',
-			video: [
-				'cruz-1.1',
-				'cruz-1.2',
-				'cruz-1.3',
-				'cruz-1.4',
-				'cruz-1.5'
-			]
-		},
-		{
-			name: 'sanders',
-			video: [
-				'sanders-2.1',
-				'sanders-2.2',
-				'sanders-2.3',
-				'sanders-2.4',
-				'sanders-2.5',
-				'sanders-2.6',
-				'sanders-2.7'
-			]
-		},
-	];
+	static var PLAYLIST : Map<String,Int> = Build.playlist('bin/video/live');
 
 	static var video : VideoElement;
-	static var channel : Channel;
-	static var index : Int; // Channel index
+	static var channelKeys : Array<String>;
+	static var channelIndex : Int;
+	static var videoIndex : Int;
+	static var playbackRate = 1.0;
 
-	static function loadNextChannel() {
-		if( ++index >= playlist.length-1 ) index = 0;
-		channel = playlist[index];
-		loadVideo();
+	static function shufflePlaylist() {
+		channelKeys.shuffle();
+		channelIndex = videoIndex = 0;
 	}
 
 	static function loadPrevChannel() {
-		if( --index < 0 ) index = playlist.length-1;
-		channel = playlist[index];
+		if( channelIndex == 0 ) channelIndex = channelKeys.length-1;
+		else channelIndex--;
+		videoIndex = 0;
+		loadVideo();
+	}
+
+	static function loadNextChannel() {
+		if( ++channelIndex == channelKeys.length ) channelIndex = 0;
+		videoIndex = 0;
 		loadVideo();
 	}
 
 	static function loadNextVideo() {
-		if( channel.index >= channel.video.length-1 ) loadNextChannel();
-		else {
-			channel.index++;
+		var numVideos = PLAYLIST.get( channelKeys[channelIndex] );
+		if( ++videoIndex == numVideos ) {
+			loadNextChannel();
+		} else {
 			loadVideo();
 		}
 	}
 
 	static function loadVideo() {
-		var name = channel.video[channel.index];
-		console.log(name);
-		video.src = 'video/live/$name.mp4';
-		video.currentTime = Math.random() * 2; // Slighty random start time offset
-		//video.playbackRate = 8;
+		var channelKey = channelKeys[channelIndex];
+		var src = 'video/live/'+channelKey+'/'+(videoIndex+1)+'.mp4';
+		video.src = src;
+		video.playbackRate = playbackRate;
 	}
 
 	static function main() {
@@ -273,20 +62,35 @@ class App {
 			video = cast document.getElementById( 'live' );
 			video.muted = true;
 			video.autoplay = true;
-			/*
-			video.addEventListener( 'loadstart', function(e){
-				//background.play();
-			}, false );
-			video.addEventListener( 'play', function(e){
-
-			}, false );
-			video.addEventListener( 'pause', function(e){
-				//trace(e);
-			}, false );
-			*/
 			video.addEventListener( 'ended', function(e){
 				loadNextVideo();
 			}, false );
+
+			channelKeys = [for(k in PLAYLIST.keys())k];
+			shufflePlaylist();
+			loadVideo();
+
+			document.body.onclick = e -> {
+				if( video.readyState == 4 ) loadNextChannel();
+			}
+			document.body.oncontextmenu = e -> {
+				e.preventDefault();
+				if( video.readyState == 4 ) loadPrevChannel();
+			}
+			window.onkeydown = function(e) {
+				//trace(e.keyCode);
+				switch e.keyCode {
+				case 37: loadPrevChannel();
+				case 39,13,32: loadNextChannel();
+				case 83: //s
+					channelKeys.shuffle();
+					channelIndex = videoIndex = 0;
+				case 187: //+
+					video.playbackRate = playbackRate = Math.min( playbackRate+1, 10 );
+				case 189: //-
+					video.playbackRate = playbackRate = Math.max( playbackRate-1, 1 );
+				}
+			}
 
 			/*
 			var storage = js.Browser.getSessionStorage();
@@ -300,33 +104,12 @@ class App {
 			}
 			//var state = (stateItem == null) ? 0 : Std.parseInt( stateItem );
 			*/
-
+			/*
 			for( ch in playlist ) {
 				ch.index = 0;
 				ch.video.shuffle();
 			}
-
 			playlist.shuffle();
-
-			index = 0;
-			channel = playlist[index];
-			loadVideo();
-
-			document.body.onclick = e -> {
-				if( video.readyState == 4 ) loadNextChannel();
-			}
-			document.body.oncontextmenu = e -> {
-				e.preventDefault();
-				if( video.readyState == 4 )  loadPrevChannel();
-			}
-			window.onkeydown = function(e) {
-				trace(e.keyCode);
-				switch e.keyCode {
-				case 13,32:
-					if( video.readyState == 4 ) loadNextChannel();
-				}
-			}
-
 			/*
 			window.onbeforeunload = e -> {
 				if( current != null ) storage.setItem( 'fuxnews', Std.string(current) );

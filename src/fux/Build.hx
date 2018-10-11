@@ -1,17 +1,23 @@
 package fux;
 
 #if sys
+import haxe.macro.Expr;
 import sys.FileSystem;
+using om.Path;
 #end
 
 class Build {
 
-	macro public static function playlist() {
-		var a = FileSystem.readDirectory('res/video/live');
-		for( f in a ) {
-
+	macro public static function playlist( path : String ) {
+		var list = new Map<String,Int>();
+		for( folder in FileSystem.readDirectory( path ) ) {
+			list.set( folder, FileSystem.readDirectory( '$path/$folder' ).length );
 		}
-		return macro $v{a};
+		var map : Array<Expr> = [];
+		for( k in list.keys() ) {
+			map.unshift( macro $v{k} => $v{list.get( k )} );
+		}
+		return macro $a{map};
 	}
 
 }
