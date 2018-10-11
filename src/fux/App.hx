@@ -80,8 +80,10 @@ class App {
 			window.onkeydown = function(e) {
 				//trace(e.keyCode);
 				switch e.keyCode {
-				case 37: loadPrevChannel();
-				case 39,13,32: loadNextChannel();
+				case 37:
+					if( video.readyState == 4 ) loadPrevChannel();
+				case 39,13,32:
+					if( video.readyState == 4 ) loadNextChannel();
 				case 83: //s
 					channelKeys.shuffle();
 					channelIndex = videoIndex = 0;
