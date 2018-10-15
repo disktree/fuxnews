@@ -49,6 +49,7 @@ class App {
 	static function loadVideo() {
 		var channelKey = channelKeys[channelIndex];
 		var src = 'video/live/'+channelKey+'/'+(videoIndex+1)+'.mp4';
+		console.log(src);
 		video.src = src;
 		video.playbackRate = playbackRate;
 	}
@@ -57,7 +58,7 @@ class App {
 
 		window.onload = function(){
 
-			console.info('FuxNews');
+			console.info('Fux News Network');
 
 			video = cast document.getElementById( 'live' );
 			video.muted = true;
@@ -93,31 +94,6 @@ class App {
 					video.playbackRate = playbackRate = Math.max( playbackRate-1, 1 );
 				}
 			}
-
-			/*
-			var storage = js.Browser.getSessionStorage();
-			var stateItem = storage.getItem('fuxnews');
-			trace(stateItem);
-			var index = 0;
-			if( stateItem == null ) {
-				playlist.shuffle();
-			} else {
-				index = Std.parseInt( stateItem );
-			}
-			//var state = (stateItem == null) ? 0 : Std.parseInt( stateItem );
-			*/
-			/*
-			for( ch in playlist ) {
-				ch.index = 0;
-				ch.video.shuffle();
-			}
-			playlist.shuffle();
-			/*
-			window.onbeforeunload = e -> {
-				if( current != null ) storage.setItem( 'fuxnews', Std.string(current) );
-				return null;
-			}
-			*/
 		}
 	}
 

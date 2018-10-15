@@ -1,8 +1,10 @@
-bin/
 res/youtube/
-NOTES*
 *.kdenlive
 *.mp4
 *.mkv
 *.webm
 *.zip
+NOTES*
+bin/video
+bin/*.js
+bin/*.js.map
