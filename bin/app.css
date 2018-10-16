@@ -20,9 +20,13 @@ video {
 	user-select: none;
 	cursor: none;
 }
-video#flag {
-	z-index: 1;
+@media screen and (orientation:landscape) {
+	video {
+		object-position: 50% 10%;
+	}
 }
-video#live {
-	z-index: 2;
+@media screen and (orientation:portrait) {
+	video {
+		object-position: 50% 0%;
+	}
 }
