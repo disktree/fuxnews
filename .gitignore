@@ -1,5 +1,4 @@
 res/youtube/
-*.kdenlive
 *.mp4
 *.mkv
 *.webm
@@ -8,3 +7,4 @@ NOTES*
 bin/video
 bin/*.js
 bin/*.js.map
+youtube/
