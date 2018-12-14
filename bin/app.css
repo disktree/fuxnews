@@ -11,6 +11,10 @@ body {
 	color: #fff;
 }
 
+header {
+	display: none;
+}
+
 video {
 	position: fixed;
 	width: 100%;
@@ -18,7 +22,7 @@ video {
 	object-fit: cover;
 	object-position: 50% 20%;
 	user-select: none;
-	cursor: none;
+	cursor: help;
 }
 @media screen and (orientation:landscape) {
 	video {
@@ -29,4 +33,8 @@ video {
 	video {
 		object-position: 50% 0%;
 	}
+}
+
+footer {
+	display: none;
 }
