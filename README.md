@@ -1,6 +1,4 @@
 
-FuxNews
-=======
-> Soulless TV
-
+FuxNews™
+========
 http://fuxnews.disktree.net/
