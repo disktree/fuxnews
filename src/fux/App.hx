@@ -1,7 +1,9 @@
 package fux;
 
+import js.html.URLSearchParams;
 import js.Browser.console;
 import js.Browser.document;
+import js.Browser.navigator;
 import js.Browser.window;
 import js.html.Element;
 import js.html.VideoElement;
@@ -27,38 +29,68 @@ class App {
 	static function loadPrevChannel() {
 		if( channelIndex == 0 ) channelIndex = channelKeys.length-1;
 		else channelIndex--;
-		videoIndex = 0;
-		loadVideo();
+		videoIndex = 1;
+		loadVideo( videoIndex );
 	}
 
 	static function loadNextChannel() {
-		if( ++channelIndex == channelKeys.length ) channelIndex = 0;
-		videoIndex = 0;
-		loadVideo();
+		if( ++channelIndex == channelKeys.length ) {
+			channelIndex = 0;
+		}
+		videoIndex = 1;
+		loadVideo( videoIndex );
 	}
 
 	static function loadNextVideo() {
 		var numVideos = PLAYLIST.get( channelKeys[channelIndex] );
-		if( ++videoIndex == numVideos ) {
+		if( ++videoIndex >= numVideos-1 ) {
 			loadNextChannel();
 		} else {
-			loadVideo();
+			loadVideo( videoIndex );
 		}
 	}
 
-	static function loadVideo() {
+	static function loadVideo( index : Int ) {
 		var channelKey = channelKeys[channelIndex];
-		var src = 'video/live/'+channelKey+'/'+(videoIndex+1)+'.mp4';
-		console.log(src);
-		video.src = src;
+		//var index = videoIndex+1;
+		videoIndex = index;
+		var id = channelKey+'/'+videoIndex;
+		//console.log( id );
+		video.src = 'video/live/'+id+'.mp4';
 		video.playbackRate = playbackRate;
+		var path = '?k=$channelKey&i=$videoIndex';
+		window.history.replaceState( {}, null, path );
 	}
 
 	static function main() {
 
 		window.onload = function(){
 
-			console.info('Fux News Network');
+			console.info( '%cFuxNews™', 'color:#003265;font-size:10rem;' );
+
+			channelKeys = [for(k in PLAYLIST.keys())k];
+			//channelIndex = 0; 
+			//videoIndex = 1;
+			shufflePlaylist();
+
+			var path = window.location.search;
+			if( path.length > 0 ) {
+				var url = new URLSearchParams( path );
+				var k = url.get('k');
+				var i = url.get('i');
+				for( j in 0...channelKeys.length ) {
+					if( channelKeys[j] == k ) {
+						channelIndex = j;
+						videoIndex = Std.parseInt(i);
+						var numVideos = PLAYLIST.get( channelKeys[channelIndex] );
+						if( videoIndex > numVideos || videoIndex == 0 ) videoIndex = 1;
+						break;
+					}
+				}
+			} else {
+				channelIndex = 0; 
+				videoIndex = 1;
+			}
 
 			video = cast document.getElementById( 'live' );
 			video.muted = true;
@@ -67,9 +99,7 @@ class App {
 				loadNextVideo();
 			}, false );
 
-			channelKeys = [for(k in PLAYLIST.keys())k];
-			shufflePlaylist();
-			loadVideo();
+			loadVideo( videoIndex );
 
 			document.body.onclick = e -> {
 				if( video.readyState == 4 ) loadNextChannel();
