@@ -43,10 +43,11 @@ class App {
 
 	static function loadNextVideo() {
 		var numVideos = PLAYLIST.get( channelKeys[channelIndex] );
-		if( ++videoIndex >= numVideos-1 ) {
+		if( videoIndex >= numVideos ) {
 			loadNextChannel();
 		} else {
-			loadVideo( videoIndex );
+			//videoIndex++;
+			loadVideo( videoIndex+1 );
 		}
 	}
 
@@ -66,7 +67,11 @@ class App {
 
 		window.onload = function(){
 
-			console.info( '%cFuxNews™', 'color:#003265;font-size:10rem;' );
+			console.info( '%cFuxNews™', 'color:#003265;' );
+
+			trace(window.location);
+			var path = window.location.search;
+			trace(path);
 
 			channelKeys = [for(k in PLAYLIST.keys())k];
 			//channelIndex = 0; 

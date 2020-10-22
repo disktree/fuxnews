@@ -8,3 +8,4 @@ bin/video
 bin/*.js
 bin/*.js.map
 youtube/
+*.blend[0-9]

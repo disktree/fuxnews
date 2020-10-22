@@ -1,6 +1,7 @@
 -js bin/app.js
 -main fux.App
 -lib om.core
+#-lib om.touch
 -cp src
 -dce full
 -debug
